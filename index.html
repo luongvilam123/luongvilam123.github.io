@@ -1,18 +1,126 @@
 ---
 layout: default
+title: "Home"
+permalink: /
 ---
 
-<div class="posts">
-  {% for post in site.posts %}
-    <article class="post">
+<style>
+  /* Minimal, clean landing page styles. Tweak to match your theme */
+  .hero {text-align:center; padding: 3rem 1rem;}
+  .hero h1 {font-size: clamp(2rem, 4vw, 3.25rem); margin: 0 0 .5rem; letter-spacing: -0.5px;}
+  .hero h2 {font-weight: 500; color: #666; margin: 0 0 1.25rem;}
+  .hero .cta {display:inline-flex; gap:.75rem; flex-wrap: wrap; justify-content:center;}
+  .btn {display:inline-block; padding:.7rem 1rem; border-radius: .6rem; border:1px solid #111; text-decoration:none;}
+  .btn-secondary {border-color:#bbb; color:#222;}
+  .section {max-width: 900px; margin: 0 auto; padding: 1rem 1.25rem 2rem;}
+  .grid {display:grid; grid-template-columns: 1fr; gap:1rem}
+  @media (min-width: 780px){ .grid{ grid-template-columns: repeat(12, 1fr);} }
+  .card {grid-column: 1 / -1; border:1px solid #eee; border-radius: .8rem; padding:1rem 1.25rem;}
+  .card h3 {margin:.25rem 0 .5rem}
+  /* Tags */
+  .tags {display:flex; flex-wrap:wrap; gap:.5rem;}
+  .tag {padding:.3rem .6rem; border:1px solid #e0e0e0; border-radius:999px; font-size:.9rem; background: #fafafa}
+  /* Posts */
+  .posts {display:grid; gap:1rem}
+  .post {border:1px solid #eee; border-radius:.75rem; padding:1rem 1.25rem}
+  .post h4 {margin:.25rem 0 .5rem}
+  .post .meta {color:#777; font-size:.9rem}
+  .read-more {text-decoration: none;}
+  /* Links bar */
+  .links {display:flex; gap:.75rem; justify-content:center; align-items:center; flex-wrap:wrap; margin-top:.75rem}
+  .links a {text-decoration:none}
+</style>
 
-      <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
+<header class="hero">
+  <h1>{{ site.author.name | default: site.owner | default: site.title | default: "Your Name" }}</h1>
+  <h2>Back‑End Software Engineer · Java · Spring Boot/WebFlux · AWS · Kafka · Redis</h2>
+  <div class="cta">
+    <a class="btn" href="{{ '/assets/resume.pdf' | relative_url }}">View Résumé</a>
+    <a class="btn btn-secondary" href="mailto:{{ site.email | default: 'you@example.com' }}">Contact</a>
+    <a class="btn btn-secondary" href="{{ '/blog' | relative_url }}">Read the Blog</a>
+  </div>
+  <div class="links">
+    {% if site.github_username %}<a href="https://github.com/{{ site.github_username }}">GitHub</a>{% endif %}
+    {% if site.linkedin %}<a href="{{ site.linkedin }}">LinkedIn</a>{% endif %}
+    {% if site.twitter %}<a href="https://twitter.com/{{ site.twitter }}">X/Twitter</a>{% endif %}
+  </div>
+</header>
 
-      <div class="entry">
-        {{ post.excerpt }}
+<section class="section">
+  <div class="grid">
+    <div class="card" style="grid-column: span 12;">
+      <h3>About</h3>
+      <p>
+        I design and build reliable back‑end systems with a focus on scalability, high availability, and low latency. My day‑to‑day toolkit includes
+        <strong>Java&nbsp;(17)</strong>, <strong>Spring Boot</strong> (WebFlux & MVC), <strong>Kafka</strong>, <strong>Redis</strong>, and data stores such as <strong>PostgreSQL</strong> and <strong>MySQL</strong>.
+        In the cloud, I work across <strong>AWS</strong> services like API Gateway, Lambda, ECS, S3, and CloudWatch—shipping features with solid CI/CD, observability, and tests.
+      </p>
+      <div class="tags" aria-label="Key skills">
+        <span class="tag">Java 17</span>
+        <span class="tag">Spring Boot</span>
+        <span class="tag">WebFlux</span>
+        <span class="tag">Kafka</span>
+        <span class="tag">Redis</span>
+        <span class="tag">PostgreSQL</span>
+        <span class="tag">AWS</span>
+        <span class="tag">CI/CD</span>
+        <span class="tag">Testing & Monitoring</span>
       </div>
+    </div>
 
-      <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
-    </article>
-  {% endfor %}
-</div>
+    <div class="card" style="grid-column: span 12;">
+      <h3>What I Do</h3>
+      <ul>
+        <li>Design, implement, and operate microservices with clean APIs and strong contracts.</li>
+        <li>Build event‑driven systems (Kafka/SQS), apply Saga/Outbox patterns, and tune performance.</li>
+        <li>Own the full lifecycle: design → develop → test → deploy → observe → iterate.</li>
+        <li>Champion code quality: automated tests, code reviews, and production monitoring.</li>
+      </ul>
+    </div>
+
+    <div class="card" style="grid-column: span 12;">
+      <h3>Featured Projects</h3>
+      {% if site.data.projects %}
+        <ul>
+          {% for p in site.data.projects %}
+            <li>
+              <strong><a href="{{ p.url | relative_url }}">{{ p.name }}</a></strong> — {{ p.summary }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <ul>
+          <li><strong>Risk Scoring Service</strong> — Reactive Spring service integrating Kafka, Redis, and a rules engine to compute risk segments in sub‑50ms.</li>
+          <li><strong>Document Upload API</strong> — S3‑backed presigned URL flow with CloudFront and signed headers; observability via CloudWatch dashboards.</li>
+          <li><strong>Settlement Quote Engine</strong> — Idempotent computation service with caching and circuit breakers, shipped via GitHub Actions to ECS Fargate.</li>
+        </ul>
+      {% endif %}
+    </div>
+
+    <div class="card" style="grid-column: span 12;">
+      <h3>Recent Writing</h3>
+      <div class="posts">
+        {% assign recent_posts = site.posts | slice: 0, 5 %}
+        {% if recent_posts and recent_posts.size > 0 %}
+          {% for post in recent_posts %}
+            <article class="post">
+              <h4><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h4>
+              <div class="meta">{{ post.date | date: "%b %d, %Y" }} • {% if post.read_time %}{{ post.read_time }} min read{% endif %}</div>
+              <p>{{ post.excerpt | strip_html | truncate: 180 }}</p>
+              <a class="read-more" href="{{ post.url | relative_url }}">Read more →</a>
+            </article>
+          {% endfor %}
+        {% else %}
+          <p>No posts yet. Create one in <code>_posts/</code> like <code>{{ site.time | date: "%Y-%m-%d" }}-my-first-post.md</code>.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="text-align:center">
+  <p>
+    Want to build something together? <a href="mailto:{% if site.email %}{{ site.email }}{% else %}you@example.com{% endif %}">Reach out</a> or
+    connect on {% if site.linkedin %}<a href="{{ site.linkedin }}">LinkedIn</a>{% else %}LinkedIn{% endif %}.
+  </p>
+</section>

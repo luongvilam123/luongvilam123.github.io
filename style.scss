@@ -269,6 +269,115 @@ nav {
     text-transform: uppercase;
     font-size: 15px;
   }
+
+  &-header {
+    background: linear-gradient(135deg, lighten($blue, 35%) 0%, lighten($blue, 10%) 100%);
+    padding: 2.5rem 3rem;
+    border-radius: 18px;
+    box-shadow: 0 25px 60px rgba($black, 0.08);
+    margin-bottom: 3rem;
+    color: $white;
+    position: relative;
+    overflow: hidden;
+
+    @include mobile {
+      padding: 1.8rem 1.6rem;
+      margin-bottom: 2.5rem;
+    }
+
+    > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    a {
+      color: inherit;
+    }
+  }
+
+  &-header::before,
+  &-header::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  &-header::before {
+    width: 200px;
+    height: 200px;
+    top: -80px;
+    right: -60px;
+    background: rgba($white, 0.18);
+  }
+
+  &-header::after {
+    width: 160px;
+    height: 160px;
+    bottom: -90px;
+    left: -50px;
+    background: rgba($white, 0.1);
+  }
+
+  &-title {
+    margin: 0;
+    font-size: 2.75rem;
+    line-height: 1.2;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: $white;
+    text-shadow: 0 10px 35px rgba($black, 0.2);
+
+    @include mobile {
+      font-size: 2.2rem;
+      line-height: 1.25;
+    }
+  }
+
+  &-subtitle {
+    margin: 1rem 0 0;
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: rgba($white, 0.85);
+    max-width: 40rem;
+
+    @include mobile {
+      font-size: 1rem;
+    }
+  }
+
+  &-meta {
+    margin: 0 0 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba($white, 0.75);
+
+    @include mobile {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      gap: 0.5rem 1rem;
+    }
+
+    span {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    span:not(:first-child)::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba($white, 0.65);
+      display: inline-block;
+      margin-right: 0.75rem;
+    }
+  }
 }
 
 .wrapper-footer {

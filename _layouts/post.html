@@ -3,14 +3,27 @@ layout: default
 hide_masthead: true
 ---
 <article class="post">
-  <h1>{{ page.title }}</h1>
+  <header class="post-header">
+    {% assign words = page.content | strip_html | number_of_words %}
+    {% assign reading_time = words | plus: 199 | divided_by: 200 %}
+    {% if reading_time < 1 %}
+      {% assign reading_time = 1 %}
+    {% endif %}
+    <p class="post-meta">
+      <span class="post-date">{{ page.date | date: "%B %e, %Y" }}</span>
+      <span class="post-reading-time">{{ reading_time }} min read</span>
+      {% if page.author %}
+      <span class="post-author">By {{ page.author }}</span>
+      {% endif %}
+    </p>
+    <h1 class="post-title">{{ page.title }}</h1>
+    {% if page.subtitle %}
+    <p class="post-subtitle">{{ page.subtitle }}</p>
+    {% endif %}
+  </header>
 
   <div class="entry">
     {{ content }}
-  </div>
-
-  <div class="date">
-    Written on {{ "now" | date: "%B %e, %Y" }}
   </div>
 
   {% include disqus.html %}

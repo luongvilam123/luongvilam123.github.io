@@ -84,3 +84,10 @@ exclude:
   - LICENSE
   - README.md
   - CNAME
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      hide_masthead: true

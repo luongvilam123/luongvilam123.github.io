@@ -33,7 +33,7 @@ hide_masthead: true
 </style>
 
 <header class="hero">
-  <h1>{{ site.author.name | default: site.owner | default: site.title | default: "Your Name" }}</h1>
+  <h1>{{ site.description | default: site.owner | default: site.title | default: "Your Name" }}</h1>
   <h2>Back-End Software Engineer — a.k.a. “Did you confirm that?” Engineer</h2>
   <div class="cta">
     <a class="btn" href="{{ '/assets/resume.pdf' | relative_url }}">View Résumé</a>
@@ -52,7 +52,7 @@ hide_masthead: true
     <div class="card" style="grid-column: span 12;">
       <h3>About</h3>
       <pre><code>#!/usr/bin/env bash
-echo "lam : Programmer | questioner | Idiot"
+echo "{site.description} : Programmer | questioner | Idiot"
 University = Sai Gon University (SGU)
 Faculty = Information Technology
 Major = Software Engineering

@@ -366,6 +366,96 @@ nav {
   border-bottom: none;
 }
 
+.blog-index {
+  margin-bottom: 4rem;
+
+  &__header {
+    margin-bottom: 2.5rem;
+    text-align: center;
+
+    @include mobile {
+      margin-bottom: 2rem;
+    }
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 2.4rem;
+  }
+
+  &__intro {
+    margin: 0.5rem auto 0;
+    max-width: 36rem;
+    color: $gray;
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+
+  &__empty {
+    text-align: center;
+    color: $gray;
+    font-style: italic;
+  }
+}
+
+.blog-list {
+  display: grid;
+  gap: 2.5rem;
+}
+
+.blog-list > .post {
+  padding: 1.9rem 2.2rem;
+  border: 1px solid lighten($lightGray, 8%);
+  border-radius: 18px;
+  border-bottom: none;
+  box-shadow: 0 18px 40px rgba($black, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: $white;
+
+  @include mobile {
+    padding: 1.5rem 1.4rem;
+  }
+}
+
+.blog-list > .post:hover,
+.blog-list > .post:focus-within {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 55px rgba($black, 0.1);
+}
+
+.post--list__title {
+  margin: 0 0 0.5rem;
+  font-size: 1.95rem;
+
+  a {
+    color: $darkerGray;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      color: $blue;
+    }
+  }
+}
+
+.post--list__meta {
+  margin-bottom: 0.9rem;
+  color: $gray;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
+
+.post--list__excerpt {
+  margin: 0 0 1.2rem;
+  color: $darkGray;
+  line-height: 1.6;
+}
+
+.blog-list .read-more {
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
 .post {
   blockquote {
     margin: 1.8em .8em;

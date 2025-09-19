@@ -1,0 +1,28 @@
+---
+layout: default
+title: Blog
+permalink: /blog/
+---
+
+<section class="blog-index">
+  <header class="blog-index__header">
+    <h1 class="blog-index__title">Blog</h1>
+    <p class="blog-index__intro">Stories, lessons, and notes from my journey as a software engineer.</p>
+  </header>
+
+  {% assign posts = site.posts %}
+  {% if posts and posts.size > 0 %}
+    <div class="posts blog-list">
+      {% for post in posts %}
+        <article class="post post--list">
+          <h2 class="post--list__title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+          <div class="post--list__meta">{{ post.date | date: "%b %d, %Y" }}{% if post.read_time %} &bull; {{ post.read_time }} min read{% endif %}</div>
+          <p class="post--list__excerpt">{{ post.excerpt | strip_html | truncate: 220 }}</p>
+          <a class="read-more" href="{{ post.url | relative_url }}">Read more &rarr;</a>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="blog-index__empty">No blog posts yet. Add one in <code>_posts/</code> to see it appear here.</p>
+  {% endif %}
+</section>

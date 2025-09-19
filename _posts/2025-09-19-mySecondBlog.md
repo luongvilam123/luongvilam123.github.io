@@ -1,52 +1,61 @@
 
 ---
 layout: post
-title: Saga Pattern
+title: Heap Data Structure
 ---
-### Context :
+# Heap Data Structure
 
-- You have applied the [***Database per Service***](https://microservices.io/patterns/data/database-per-service.html) pattern. Each service has its own database. Some business transactions, however, span multiple service so you need a mechanism to implement transactions that span services. For example, let’s imagine that you are building an e-commerce store where customers have a credit limit. The application must ensure that a new order will not exceed the customer’s credit limit. Since Orders and Customers are in different databases owned by different services the application cannot simply use a local ACID transaction.
+In the heap data structure, the root node is compared with its children and arranged according to the order. So if a is a root node and b is its child, then the property, **key (a)>= key (b)** will generate a max heap.
 
-### Problem :
+The above relation between the root and the child node is called as “Heap Property”.
 
-- How to implement transactions that span services?
+**Depending on the order of parent-child nodes, the heap is generally of two types:**
 
-### Forces :
+**#1) Max-Heap**: In a Max-Heap the root node key is the greatest of all the keys in the heap. It should be ensured that the same property is true for all the subtrees in the heap recursively.
 
-- 2PC (**Distributed transaction**) is not an option - must implement to handle **dual write problem**
+The below diagram shows a Sample Max Heap. Note that the root node is greater than its children.
 
-### Solution :
+![](https://www.softwaretestinghelp.com/wp-content/qa/uploads/2020/05/1-7.png)
 
-- Implement each business transaction that spans multiple services is a saga. A saga is a sequence of local transactions. Each local transaction updates the database and publishes a message or event to trigger the next local transaction in the saga. If a local transaction fails because it violates a business rule then the saga executes a series of compensating transactions that undo the changes that were made by the preceding local transactions.
+**#2) Min-Heap**: In the case of a Min-Heap, the root node key is the smallest or minimum among all the other keys present in the heap. As in the Max heap, this property should be recursively true in all the other subtrees in the heap.
 
-![Saga coordination overview](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/89952217-be82-4c35-bc5f-a0e766992d51/Untitled.png)
+**An example,** of a Min-heap tree, is shown below. As we can see, the root key is the smallest of all the other keys in the heap.
 
-There are two ways of coordination sagas:
+![](https://www.softwaretestinghelp.com/wp-content/qa/uploads/2020/05/2-6.png)
 
-- **Choreography** - each local transaction publishes domain events that trigger local transactions in other services
-- **Orchestration** - an orchestrator (object) tells the participants what local transactions to execute
+**A heap data structure can be used in the following areas:**
 
-### **Example: Choreography-based saga**
+- Heaps are mostly used to implement Priority Queues.
+- Especially min-heap can be used to determine the shortest paths between the vertices in a Graph.
 
-![Choreography-based saga example](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/950a7357-bb55-4284-9d68-3a92d5879c6c/Untitled.png)
+As already mentioned, the heap data structure is a complete binary tree that satisfies the heap property for the root and the children. This heap is also called a **binary heap**.
 
-An e-commerce application that uses this approach would create an order using a choreography-based saga that consists of the following steps:
+# **Binary Heap**
 
-1. The `Order Service` receives the `POST /orders` request and creates an `Order` in a `PENDING` state
-2. It then emits an `Order Created` event
-3. The `Customer Service`’s event handler attempts to reserve credit
-4. It then emits an event indicating the outcome
-5. The `OrderService`’s event handler either approves or rejects the `Order`
+**A binary heap fulfills the below properties:**
 
-### **Example: Orchestration-based saga**
+- A binary heap is a complete binary tree. In a complete binary tree, all the levels except the last level are completely filled. At the last level, the keys are as far as left as possible.
+- It satisfies the heap property. The binary heap can be max or min-heap depending on the heap property it satisfies.
 
-![Orchestration-based saga example](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/301a53ac-8439-43c2-a858-31a3251becf4/Untitled.png)
+A binary heap is normally represented as an Array. As it is a complete binary tree, it can easily be represented as an array. Thus in an array representation of a binary heap, the root element will be A[0] where A is the array used to represent the binary heap.
 
-An e-commerce application that uses this approach would create an order using an orchestration-based saga that consists of the following steps:
+So in general for any ith node in the binary heap array representation, A[i], we can represent the indices of other nodes as shown below.
 
-1. The `Order Service` receives the `POST /orders` request and creates the `Create Order` saga orchestrator
-2. The saga orchestrator creates an `Order` in the `PENDING` state
-3. It then sends a `Reserve Credit` command to the `Customer Service`
+| **A [(i-1)/2]** | **Represents the parent node** |
+| --- | --- |
+| A[(2*i)+1] | Represents the left child node |
+| A[(2*i)+2] | Represents the right child node |
+
+**Consider the following binary heap:**
+
+![](https://www.softwaretestinghelp.com/wp-content/qa/uploads/2020/05/3-6.png)
+
+**The array representation of the above min binary heap is as follows:**
+
+![](https://www.softwaretestinghelp.com/wp-content/qa/uploads/2020/05/4-6.png)
+
+As shown above, the heap is traversed as per the **level order** i.e. the elements are traversed from left to right at each level. When the elements at one level are exhausted, we move on to the next level.
+
 4. The `Customer Service` attempts to reserve credit
 5. It then sends back a reply message indicating the outcome
 6. The saga orchestrator either approves or rejects the `Order`

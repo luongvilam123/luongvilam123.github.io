@@ -11,24 +11,35 @@
 
   <body>
     {% unless page.hide_masthead %}
-      <div class="wrapper-masthead">
-        <div class="container">
-          <header class="masthead clearfix">
-            <a href="{{ site.baseurl }}/" class="site-avatar"><img src="{{ site.avatar }}" /></a>
-
-            <div class="site-info">
-              <h1 class="site-name"><a href="{{ site.baseurl }}/">{{ site.name }}</a></h1>
-              <p class="site-description">{{ site.description }}</p>
-            </div>
-
-            <nav>
-              <a href="{{ site.baseurl }}/">Homepage</a>
-              <a href="{{ site.baseurl }}/about">About</a>
-              <a href="{{ site.baseurl }}/blog/">Blog</a>
-            </nav>
-          </header>
-        </div>
+     {% assign nav_site_title = site.name | default: site.title | default: site.description | default: site.github.repository_name %}
+<div class="post-masthead">
+  <div class="container">
+    <div class="post-masthead__inner">
+      {% if nav_site_title %}
+      <div class="post-masthead__brand" aria-label="Site">
+        <span class="post-masthead__brand-title">{{ nav_site_title | escape }}</span>
       </div>
+      {% endif %}
+      <nav class="post-masthead__menu" aria-label="Primary navigation">
+        <a class="post-masthead__link{% if page.url == '/' %} post-masthead__link--active{% endif %}" href="{{ site.baseurl }}/"{% if page.url == '/' %} aria-current="page"{% endif %}>
+          <svg class="post-masthead__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M4 10.5L12 4l8 6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M6 11.5v9h5v-5.5h2V20.5h5v-9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          <span class="post-masthead__label">Home</span>
+        </a>
+        <a class="post-masthead__link" href="{{ site.baseurl }}/archives/">
+          <svg class="post-masthead__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <rect x="3.75" y="5" width="16.5" height="14.5" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="1.8"></rect>
+            <path d="M3.75 9h16.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+            <path d="M9 13h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+          </svg>
+          <span class="post-masthead__label">About</span>
+        </a>
+      </nav>
+    </div>
+  </div>
+</div>
     {% endunless %}
 
     <div id="main" role="main" class="container">

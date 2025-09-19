@@ -1,8 +1,3 @@
-
----
-layout: post
-title: Heap Data Structure
----
 # Heap Data Structure
 
 In the heap data structure, the root node is compared with its children and arranged according to the order. So if a is a root node and b is its child, then the property, **key (a)>= key (b)** will generate a max heap.

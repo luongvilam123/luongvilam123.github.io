@@ -11,13 +11,14 @@ title: Saga Pattern
   
   ![Ví dụ về Saga Pattern](/images/example-1.jpg)
 
-### Problem :
+### Đặt Vấn Đề :
 
-- How to implement transactions that span services?
+- Làm sao bạn có thể triển khai Transaction này trải dài trên Microservices của bạn ?
 
-### Forces :
+### Giải Pháp :
 
-- 2PC (**Distributed transaction**) is not an option - must implement to handle **dual write problem**
+- 2PC (**Distributed transaction**) -> không được lựa chọn vì tiêu đề của bài viết này không phải là Two-Phase Commit nha hehe
+- Saga Pattern -> chọn ngay thôi
 
 ### Solution :
 

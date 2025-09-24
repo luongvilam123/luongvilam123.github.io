@@ -9,7 +9,7 @@ title: Saga Pattern
 - Bạn có các Business Transactions (một chuỗi các hành động xảy ra để đạt được một kết quả bạn mong đợi) nhưng không may là các chuỗi hành động này trải dài ra toàn bộ các services bên trong Microservices của bạn và bạn cần một cơ chế để có thể triển khai Business Transactions này trên Microservices của mình
 ### Ví Dụ Nè
   
-- You have applied the [***Database per Service***](https://microservices.io/patterns/data/database-per-service.html) pattern. Each service has its own database. Some business transactions, however, span multiple service so you need a mechanism to implement transactions that span services. For example, let’s imagine that you are building an e-commerce store where customers have a credit limit. The application must ensure that a new order will not exceed the customer’s credit limit. Since Orders and Customers are in different databases owned by different services the application cannot simply use a local ACID transaction.
+- ![Ví dụ về Saga Pattern](/images/example-1.jpg)
 
 ### Problem :
 

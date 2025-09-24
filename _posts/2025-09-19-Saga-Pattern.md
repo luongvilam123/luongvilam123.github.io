@@ -9,7 +9,7 @@ title: Saga Pattern
 - Bạn có các Business Transactions (một chuỗi các hành động xảy ra để đạt được một kết quả bạn mong đợi) nhưng không may là các chuỗi hành động này trải dài ra toàn bộ các services bên trong Microservices của bạn và bạn cần một cơ chế để có thể triển khai Business Transactions này trên Microservices của mình
 ### Ví Dụ Nè
   
-- ![Ví dụ về Saga Pattern](/images/example-1.jpg)
+  ![Ví dụ về Saga Pattern](/images/example-1.jpg)
 
 ### Problem :
 

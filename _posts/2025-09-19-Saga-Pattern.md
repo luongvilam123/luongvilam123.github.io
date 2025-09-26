@@ -24,8 +24,12 @@ title: Saga Pattern
 
 ### Saga Pattern Là Gì ? :
 
-- Saga Pattern là một Design Pattern (là những giải pháp điển hình cho các vấn đề thường gặp trong thiết kế phần mềm. Chúng giống như những bản thiết kế được tạo sẵn mà bạn có thể tùy chỉnh để giải quyết vấn đề thường gặp trong lúc triển khai phần mềm của mình)
-- Saga Pattern là giải pháp giúp bạn quản lý
+- Saga Pattern là một Design Pattern (là những giải pháp điển hình cho các vấn đề thường gặp trong thiết kế phần mềm. Chúng giống như những bản thiết kế được tạo sẵn mà bạn có thể tùy chỉnh để giải quyết vấn đề thường gặp trong lúc triển khai phần mềm của mình).
+- Saga Pattern là giải pháp giúp bạn quản lý các Distributed Transactions trong Microservices bằng cách điều phối các local transactions (là các transactions được đánh số 1, 2, 3, 4 trong ví dụ mà ) trải dài trên các services.
+- Local Transactions làm những việc:
+  - Cập nhật cơ sở dữ liệu của chính service đó.
+  - Tạo ra một sự kiện (hoặc phản hồi) để kích hoạt bước tiếp theo.
+- 
 
 ![Saga coordination overview](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/89952217-be82-4c35-bc5f-a0e766992d51/Untitled.png)
 

@@ -24,7 +24,8 @@ title: Saga Pattern
 
 ### Saga Pattern Là Gì ? :
 
-- Implement each business transaction that spans multiple services is a saga. A saga is a sequence of local transactions. Each local transaction updates the database and publishes a message or event to trigger the next local transaction in the saga. If a local transaction fails because it violates a business rule then the saga executes a series of compensating transactions that undo the changes that were made by the preceding local transactions.
+- Saga Pattern là một Design Pattern (là những giải pháp điển hình cho các vấn đề thường gặp trong thiết kế phần mềm. Chúng giống như những bản thiết kế được tạo sẵn mà bạn có thể tùy chỉnh để giải quyết vấn đề thường gặp trong lúc triển khai phần mềm của mình)
+- Saga Pattern là giải pháp giúp bạn quản lý
 
 ![Saga coordination overview](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/89952217-be82-4c35-bc5f-a0e766992d51/Untitled.png)
 

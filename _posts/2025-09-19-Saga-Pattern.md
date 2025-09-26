@@ -6,7 +6,7 @@ title: Saga Pattern
 - Kiến trúc hệ thống của bạn dùng để xây dựng sản phẩm/dự án đang là Microservices
 - Các Services bên trong đang giao tiếp với nhau bằng việc tiếp nhận và xử lý các sự kiện xảy ra trong hệ thống (Event-Driven Architecture)
 - Các Services bên trong hệ thống của các bạn đều sử dụng một Database riêng của chính nó
-- Bạn có các Business Transactions (một chuỗi các hành động xảy ra để đạt được một kết quả bạn mong đợi) nhưng không may là một chuỗi hành động này trải dài ra toàn bộ các services bên trong Microservices của bạn và bạn cần một cơ chế để có thể triển khai Business Transactions này trên Microservices của mình
+- Bạn có các Distributed Transactions - một chuỗi các hành động xảy ra phân tán, trải dài ra toàn bộ các services bên trong Microservices của bạn và bạn cần một cơ chế để có thể triển khai Distributed Transactions này trên Microservices của mình
 ### Ví Dụ Nè
   
   ![Ví dụ về Saga Pattern](/images/example-1.jpg)
@@ -15,7 +15,7 @@ title: Saga Pattern
 
 ### Đặt Vấn Đề :
 
-- Làm sao bạn có thể triển khai Transaction này trải dài trên Microservices của bạn ?
+- Làm sao bạn có thể triển khai Distributed Transactions này ?
 
 ### Giải Pháp :
 

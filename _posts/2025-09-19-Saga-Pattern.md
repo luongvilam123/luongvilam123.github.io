@@ -12,6 +12,8 @@ title: Saga Pattern
   ![Ví dụ về Saga Pattern](/images/example-1.jpg)
 
 - Phần ví dụ trên đã được mình đơn giản hóa một cách dễ hiễu nhất nhưng trong thực tế thì lượng services trong Microservices nhiều hơn và giao tiếp với nhau phức tạp hơn rất nhiều nha
+- Ở đây khi khách hàng tiến hành vay tiền và được giải ngân số tiền thì sẽ là một Transaction hoàn tất
+- Trong Transaction này có nhiều hành động xảy ra được đảm nhận bởi các services cụ thể (1, 2, 3, 4), mỗi hành động ở một service được gọi là một Local Transaction (cập nhật kết quả vào database của chính nó và tiến hành tạo ra một sự kiện hoặc phản hồi để kích hoạt Local Transaction tiếp theo)
 
 ### Đặt Vấn Đề :
 

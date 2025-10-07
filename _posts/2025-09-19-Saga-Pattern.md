@@ -39,8 +39,8 @@ title: Saga Pattern
 Tính năng cho vay ở trên đã được mình triển khai Saga Choreography để quản lý Distributed Transaction như sau: 
 
 1. Khi khách hàng tiến hành yêu cầu một khoản vay, một `POST/eligibilityCheck` request được gửi đến `Eligibility Service`.
-2. `Eligibility Service` sau đó sẽ tiến hành thực hiện các logic về kiểm tra lý lịch của khách hàng,khi đã xử lý thành công các thông tin pháp lý của khách hàng được lưu lại ở local database và phát đi một sự kiện để kích hoạt bước tiếp theo.
-3. The `Customer Service`’s event handler attempts to reserve credit
+2. `Eligibility Service` sau đó sẽ tiến hành thực hiện các logic về kiểm tra lý lịch của khách hàng, khi đã xử lý thành công các thông tin pháp lý của khách hàng được lưu lại ở local database và phát đi một sự kiện để kích hoạt bước tiếp theo.
+3. `Affordability Service` nhận được sư kiện về việc khách hàng đã đủ điều kiện pháp lý để vay tiền (pass eligibility check), tiến hành thực hiện logic kiểm tra thu nhập hàng tháng của khách hàng, khi đã xác nhận thu nhập hàng tháng của khách hàng đủ điều kiện để trả tiền hàng tháng cho khoản vay, thông tin được lưu lại ở local database và phát đi một để kích hoạt bước tiếp theo.
 4. It then emits an event indicating the outcome
 5. The `OrderService`’s event handler either approves or rejects the `Order`
 

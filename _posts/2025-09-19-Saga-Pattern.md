@@ -44,7 +44,7 @@ An e-commerce application that uses this approach would create an order using a 
 4. It then emits an event indicating the outcome
 5. The `OrderService`’s event handler either approves or rejects the `Order`
 
-### **Example: Orchestration-based saga**
+### Ví Dụ Cho Saga Orchestration (Điều Phối Tập Trung)
 
 ![Orchestration-based saga example](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/301a53ac-8439-43c2-a858-31a3251becf4/Untitled.png)
 

@@ -28,19 +28,11 @@ title: Saga Pattern
 
 - Saga Pattern là một Design Pattern (là những giải pháp điển hình cho các vấn đề thường gặp trong thiết kế phần mềm. Chúng giống như những bản thiết kế được tạo sẵn mà bạn có thể tùy chỉnh để giải quyết vấn đề thường gặp trong lúc triển khai phần mềm của mình).
 - Saga Pattern là giải pháp giúp bạn quản lý các Distributed Transactions trong Microservices bằng cách điều phối các local transactions (là các transactions được đánh số 1, 2, 3, 4 trong ví dụ mà ) trải dài trên các services.
-- Local Transactions làm những việc:
-  - Cập nhật cơ sở dữ liệu của chính service đó.
-  - Tạo ra một sự kiện (hoặc phản hồi) để kích hoạt bước tiếp theo.
-- 
+- Có hai hướng để điều phối Saga :
+ + Saga Choreography (Điều Phối Phân Tán): mỗi local transaction (giao dịch cục bộ) sẽ phát ra các sự kiện (domain events) để kích hoạt các local transaction (giao dịch cục bộ) ở các services khác.
+ + Saga Orchestration: một trình điều phối (orchestrator) sẽ chỉ định cho các thành phần tham gia biết cần thực hiện local transaction (giao dịch cục bộ) nào.
 
-![Saga coordination overview](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/89952217-be82-4c35-bc5f-a0e766992d51/Untitled.png)
-
-There are two ways of coordination sagas:
-
-- **Choreography** - each local transaction publishes domain events that trigger local transactions in other services
-- **Orchestration** - an orchestrator (object) tells the participants what local transactions to execute
-
-### **Example: Choreography-based saga**
+### Ví Dụ Cho Saga Choreography (Điều Phối Phân Tán)
 
 ![Choreography-based saga example](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/950a7357-bb55-4284-9d68-3a92d5879c6c/Untitled.png)
 

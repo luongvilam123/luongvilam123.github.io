@@ -36,10 +36,10 @@ title: Saga Pattern
 
 ![Ví dụ về Saga Pattern Choreography](/images/example-2.png)
 
-An e-commerce application that uses this approach would create an order using a choreography-based saga that consists of the following steps:
+Tính năng cho vay ở trên đã được mình triển khai Saga Choreography để quản lý Distributed Transaction như sau: 
 
-1. The `Order Service` receives the `POST /orders` request and creates an `Order` in a `PENDING` state
-2. It then emits an `Order Created` event
+1. Khi khách hàng tiến hành yêu cầu một khoản vay, một `POST/eligibilityCheck` request được gửi đến `Eligibility Service`.
+2. `Eligibility Service` sau đó sẽ tiến hành thực hiện các logic về kiểm tra lý lịch của khách hàng,khi đã xử lý thành công các thông tin pháp lý của khách hàng được lưu lại ở local database và phát đi một sự kiện để kích hoạt bước tiếp theo.
 3. The `Customer Service`’s event handler attempts to reserve credit
 4. It then emits an event indicating the outcome
 5. The `OrderService`’s event handler either approves or rejects the `Order`

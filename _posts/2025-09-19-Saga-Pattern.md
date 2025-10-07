@@ -34,7 +34,7 @@ title: Saga Pattern
 
 ### Ví Dụ Cho Saga Choreography (Điều Phối Phân Tán)
 
-![Ví dụ về Saga Pattern Choreography](/images/example-2.jpg)
+![Ví dụ về Saga Pattern Choreography](/images/example-2.png)
 
 An e-commerce application that uses this approach would create an order using a choreography-based saga that consists of the following steps:
 

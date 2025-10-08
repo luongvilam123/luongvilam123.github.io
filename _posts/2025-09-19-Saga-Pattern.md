@@ -40,8 +40,11 @@ Tính năng cho vay ở trên đã được mình triển khai Saga Choreography
 
 1. Khi khách hàng tiến hành yêu cầu một khoản vay, một `POST/eligibilityCheck` request được gửi đến `Eligibility Service`.
 2. `Eligibility Service` sau đó sẽ tiến hành thực hiện các logic về kiểm tra lý lịch của khách hàng, khi đã xử lý thành công các thông tin pháp lý của khách hàng được lưu lại ở local database và phát đi một sự kiện để kích hoạt bước tiếp theo.
-3. `Affordability Service` nhận được sư kiện về việc khách hàng đã đủ điều kiện pháp lý để vay tiền (pass eligibility check), tiến hành thực hiện logic kiểm tra thu nhập hàng tháng của khách hàng, khi đã xác nhận thu nhập hàng tháng của khách hàng đủ điều kiện để trả tiền hàng tháng cho khoản vay, thông tin được lưu lại ở local database và phát đi một để kích hoạt bước tiếp theo.
-4. Tương tự với các local transaction khác, đến khi nào Distributed Transaction của chúng ta được hoàn thành (khách hàng được giải ngân thành công khoản vay).
+3. `Affordability Service` nhận được sự kiện về việc khách hàng đã đủ điều kiện pháp lý để vay tiền (pass eligibility check), tiến hành thực hiện logic kiểm tra thu nhập hàng tháng của khách hàng, khi đã xác nhận thu nhập hàng tháng của khách hàng đủ điều kiện để trả tiền hàng tháng cho khoản vay, thông tin được lưu lại ở local database và phát đi một để kích hoạt bước tiếp theo.
+5. `Decision Service` sau khi nhận được sự kiện từ việc khách hàng đã đủ điều kiện để trả tiền cho khoản vay hàng tháng, tiến hành tạo ra một khoản vay cho khách hàng, lưu thông tin này lại ở local database và phát đi một sự kiện để kích hoạt bước cuối cùng là giải ngân số tiền vay đến tài khoản của khách hàng.
+7. `Disbursement Service` sau khi nhận được sự kiện về quyết định giải ngân số tiền 2 tỉ cho khách hàng, tiến hành giải ngân số tiền này và đồng thời lưu lại thông tin tùy theo accounting flow của doanh nghiệp để ghi nhận và phục vụ cho việc đối soát.
+
+Vậy là Distributed Transaction của chúng ta đã hoàn thành !!!
 
 ### Ví Dụ Cho Saga Orchestration (Điều Phối Tập Trung)
 

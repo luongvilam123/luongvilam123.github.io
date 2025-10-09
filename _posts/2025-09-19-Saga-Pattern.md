@@ -69,6 +69,7 @@ Vậy là Distributed Transaction của chúng ta đã hoàn thành !!!
 2. Không phải giữ locking database của từng services quá lâu cho đến khi Distributed Transaction được commit (hoàn thành)
   - Mỗi local transaction commit ngay khi làm xong nhiệm vụ của nó, không giữ lock lâu → phù hợp cho workflow cần thực hiện trong thời gian dài (thậm chí vài ngày).
   - Hệ thống đỡ bị tắc nghẽn ở database, chịu tải tốt hơn.
+  - Không xảy ra deadlock giữa các services bên trong Microservices
 
 3. Khả năng phục hồi khi có lỗi
   - Nếu một bước fail, Saga chạy compensating transaction để rollback các bước trước đó → đảm bảo eventual consistency.

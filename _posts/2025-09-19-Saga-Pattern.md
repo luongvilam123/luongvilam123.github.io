@@ -52,7 +52,10 @@ Vậy là Distributed Transaction của chúng ta đã hoàn thành !!!
 
 Tính năng cho vay ở trên đã được mình triển khai Saga Orchestration để quản lý Distributed Transaction như sau: 
 
-1. Khi khách hàng tiến hành yêu cầu một khoản vay, một `POST/eligibilityCheck` request được gửi đến `Orchestrator Service`, đây sẽ là vị nhạc trưởng để điều phối các local transaction của chúng ta.
-2. `Eligibility Service` sau đó sẽ tiến hành thực hiện các logic về kiểm tra lý lịch của khách hàng, khi đã xử lý thành công các thông tin pháp lý của khách hàng được lưu lại ở local database và phát đi một sự kiện để kích hoạt bước tiếp theo.
-3. `Affordability Service` nhận được sư kiện về việc khách hàng đã đủ điều kiện pháp lý để vay tiền (pass eligibility check), tiến hành thực hiện logic kiểm tra thu nhập hàng tháng của khách hàng, khi đã xác nhận thu nhập hàng tháng của khách hàng đủ điều kiện để trả tiền hàng tháng cho khoản vay, thông tin được lưu lại ở local database và phát đi một để kích hoạt bước tiếp theo.
-4. Tương tự với các local transaction khác, đến khi nào Distributed Transaction của chúng ta được hoàn thành (khách hàng được giải ngân thành công khoản vay).
+1. Khi khách hàng tiến hành yêu cầu một khoản vay, một `POST/eligibilityCheck` request được gửi đến `Orchestrator Service`, đây sẽ là vị nhạc trưởng để điều phối các local transactions của chúng ta.
+2. Nhạc trưởng sẽ gửi một sự kiện đến `Eligibility Service` yêu cầu tiến hành thực hiện các logic về kiểm tra lý lịch của khách hàng, khi đã xử lý thành công các thông tin pháp lý của khách hàng được lưu lại ở local database và phát đi một sự kiện thông báo rằng đã thực hiện thành công.
+3. Nhạc trưởng nhận được sự kiện thông báo rằng `Eligibility Service` đã thực hiện thành công, nhạc trưởng tiến hành phát đi một sự kiện đến `Affordability Service` yêu cầu tiến hành thực hiện logic kiểm tra thu nhập hàng tháng của khách hàng, khi đã xác nhận thu nhập hàng tháng của khách hàng đủ điều kiện để trả tiền hàng tháng cho khoản vay, thông tin được lưu lại ở local database và phát đi một sự kiện thông báo rằng đã thực hiện thành công.
+4. Nhạc trưởng nhận được sự kiện thông báo rằng `Affordability Service` đã thực hiện thành công, nhạc trưởng tiến hành phát đi một sự kiện đến `Decision Service`, yêu cầu tiến hành tạo ra một khoản vay cho khách hàng, lưu thông tin này lại ở local database và phát đi một sự kiện thông báo rằng đã thực hiện thành công.
+5.  Nhạc trưởng nhận được sự kiện thông báo rằng `Decision Service` đã thực hiện thành công, nhạc trưởng tiến hành phát đi một sự kiện đến `Disbursement Service`, yêu cầu tiến hành giải ngân số tiền 2 tỉ cho khách hàng, tiến hành giải ngân số tiền này và đồng thời lưu lại thông tin tùy theo accounting flow của doanh nghiệp để ghi nhận và phục vụ cho việc đối soát.
+
+Vậy là Distributed Transaction của chúng ta đã hoàn thành !!!

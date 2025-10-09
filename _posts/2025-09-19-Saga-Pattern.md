@@ -61,3 +61,17 @@ Tính năng cho vay ở trên đã được mình triển khai Saga Orchestratio
 Vậy là Distributed Transaction của chúng ta đã hoàn thành !!!
 
 ### Ưu Điểm Và Nhược Điểm Của Saga Pattern
+
+1. Khả Năng Mở Rộng & Độc Lập Của Các Services
+  - Các service chỉ cần thực hiện local transaction của mình, không dùng chung một database nên sẽ không dẫn đến việc phụ thuộc lẫn nhau.
+  - Dễ dàng scale từng service độc lập.
+
+2. Không phải giữ locking database của từng services quá lâu cho đến khi Distributed Transaction được commit (hoàn thành)
+  - Mỗi local transaction commit ngay khi làm xong nhiệm vụ của nó, không giữ lock lâu → phù hợp cho workflow cần thực hiện trong thời gian dài (thậm chí vài ngày).
+  - Hệ thống đỡ bị tắc nghẽn ở database, chịu tải tốt hơn.
+
+3. Khả năng phục hồi khi có lỗi
+  - Nếu một bước fail, Saga chạy compensating transaction để rollback các bước trước đó → đảm bảo eventual consistency.
+
+4. Tích hợp tốt với Event-driven architecture
+  - Saga phối hợp tự nhiên với EDA thông qua việc sử dụng các message queue (Kafka, RabbitMQ, EventBridge, …) để truyền thông điệp giữa các service.

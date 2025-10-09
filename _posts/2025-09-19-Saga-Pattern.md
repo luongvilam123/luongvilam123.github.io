@@ -59,3 +59,5 @@ Tính năng cho vay ở trên đã được mình triển khai Saga Orchestratio
 5.  Nhạc trưởng nhận được sự kiện thông báo rằng `Decision Service` đã thực hiện thành công, nhạc trưởng tiến hành phát đi một sự kiện đến `Disbursement Service`, yêu cầu tiến hành giải ngân số tiền 2 tỉ cho khách hàng, tiến hành giải ngân số tiền này và đồng thời lưu lại thông tin tùy theo accounting flow của doanh nghiệp để ghi nhận và phục vụ cho việc đối soát.
 
 Vậy là Distributed Transaction của chúng ta đã hoàn thành !!!
+
+### Ưu Điểm Và Nhược Điểm Của Saga Pattern

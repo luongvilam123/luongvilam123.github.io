@@ -2,77 +2,69 @@
 layout: post
 title: Saga Pattern
 ---
-### Hiện Trường Vụ Án :
-- Kiến trúc hệ thống của bạn dùng để xây dựng sản phẩm/dự án đang là Microservices
-- Các Services bên trong đang giao tiếp với nhau bằng việc tiếp nhận và xử lý các sự kiện xảy ra trong hệ thống (Event-Driven Architecture)
-- Các Services bên trong hệ thống của các bạn đều sử dụng một Database riêng của chính nó
-- Bạn có các Distributed Transactions - một chuỗi các hành động xảy ra phân tán, trải dài ra toàn bộ các services bên trong Microservices của bạn và bạn cần một cơ chế để có thể triển khai Distributed Transactions này trên Microservices của mình
-### Ví Dụ Nè
-  
-  ![Ví dụ về Saga Pattern](/images/example-1.jpg)
 
-- Phần ví dụ trên đã được mình đơn giản hóa một cách dễ hiễu nhất nhưng trong thực tế thì lượng services trong Microservices nhiều hơn và giao tiếp với nhau phức tạp hơn rất nhiều nha
-- Ở đây khi khách hàng tiến hành vay tiền và được giải ngân số tiền thì sẽ là một Transaction hoàn tất
-- Trong Transaction này có nhiều hành động xảy ra được đảm nhận bởi các services cụ thể (1, 2, 3, 4), mỗi hành động ở một service được gọi là một Local Transaction (cập nhật kết quả vào database của chính nó và tiến hành tạo ra một sự kiện hoặc phản hồi để kích hoạt Local Transaction tiếp theo)
+Khi các hệ thống của chúng ta chuyển dịch sang kiến trúc Microservices, câu chuyện về việc phối hợp giữa vô số services trở nên phức tạp hơn bao giờ hết. Bài viết này sẽ dẫn bạn đi qua một "hiện trường" quen thuộc, cùng khám phá vì sao Saga Pattern được xem là lời giải thân thiện cho những distributed transaction dài hơi.
 
-### Đặt Vấn Đề :
+### Bối Cảnh Vấn Đề
 
-- Làm sao bạn có thể triển khai Distributed Transactions này ?
+Hãy tưởng tượng bạn đang sở hữu một hệ thống Microservices với những đặc điểm sau:
 
-### Giải Pháp :
+- Mỗi service có database riêng và trao đổi với nhau thông qua các sự kiện (Event-Driven Architecture).
+- Dòng nghiệp vụ của bạn kéo theo nhiều bước xử lý nằm rải rác ở các services khác nhau.
+- Bạn cần một cơ chế bảo đảm toàn bộ chuỗi thao tác đó hoàn thành trọn vẹn, hoặc nếu có lỗi thì hệ thống vẫn hồi phục được.
 
-- 2PC (**Distributed transaction**) -> không được lựa chọn vì tiêu đề của bài viết này không phải là Two-Phase Commit nha hehe
-- Saga Pattern -> chọn ngay thôi
+Đó chính là lúc distributed transactions bước lên sân khấu – và cũng là lúc Saga Pattern thể hiện giá trị.
 
-### Saga Pattern Là Gì ? :
+### Câu Chuyện Minh Họa
 
-- Saga Pattern là một Design Pattern (là những giải pháp điển hình cho các vấn đề thường gặp trong thiết kế phần mềm. Chúng giống như những bản thiết kế được tạo sẵn mà bạn có thể tùy chỉnh để giải quyết vấn đề thường gặp trong lúc triển khai phần mềm của mình).
-- Saga Pattern là giải pháp giúp bạn quản lý các Distributed Transactions trong Microservices bằng cách điều phối các local transactions (là các transactions được đánh số 1, 2, 3, 4 trong ví dụ mà ) trải dài trên các services.
-- Có hai hướng để điều phối Saga :
-   - Saga Choreography (Điều Phối Phân Tán): mỗi local transaction (giao dịch cục bộ) sẽ phát ra các sự kiện (domain events) để kích hoạt các local transaction (giao dịch cục bộ) ở các services khác.
-   - Saga Orchestration: một trình điều phối (orchestrator) sẽ chỉ định cho các thành phần tham gia biết cần thực hiện local transaction (giao dịch cục bộ) nào.
+![Ví dụ về Saga Pattern](/images/example-1.jpg)
 
-### Ví Dụ Cho Saga Choreography (Điều Phối Phân Tán)
+Để dễ hình dung, hãy cùng nhìn vào hành trình giải ngân một khoản vay. Chuỗi các bước 1, 2, 3, 4 lần lượt được xử lý bởi những services chuyên trách khác nhau. Mỗi bước được gọi là một *local transaction*: service thực hiện logic của nó, lưu kết quả vào database riêng và phát đi tín hiệu (event/response) để kích hoạt bước kế tiếp. Khi toàn bộ chuỗi hoàn thành, chúng ta có một distributed transaction trọn vẹn.
+
+### Bài Toán Đặt Ra
+
+Vậy làm sao để điều phối chuỗi local transactions này? Two-Phase Commit (2PC) là một lựa chọn, nhưng trong phạm vi bài viết chúng ta sẽ tập trung vào phương án được ưa chuộng hơn trong thế giới microservices: **Saga Pattern**.
+
+### Saga Pattern Là Gì?
+
+Saga Pattern là một design pattern dùng để quản lý distributed transactions bằng cách chia chúng thành các local transactions được điều phối tuần tự. Có hai chiến lược chính:
+
+1. **Saga Choreography (Điều Phối Phân Tán)** – mỗi local transaction phát ra domain event để kích hoạt service kế tiếp.
+2. **Saga Orchestration (Điều Phối Tập Trung)** – một orchestrator đóng vai trò nhạc trưởng, điều khiển các services lần lượt thực hiện local transaction của mình.
+
+### Khi Choreography Lên Ngôi
 
 ![Ví dụ về Saga Pattern Choreography](/images/example-2.png)
 
-Tính năng cho vay ở trên đã được mình triển khai Saga Choreography để quản lý Distributed Transaction như sau: 
+Trong phiên bản choreographed của bài toán cho vay, mọi thứ vận hành theo các sự kiện được phát tán:
 
-1. Khi khách hàng tiến hành yêu cầu một khoản vay, một `POST/eligibilityCheck` request được gửi đến `Eligibility Service`.
-2. `Eligibility Service` sau đó sẽ tiến hành thực hiện các logic về kiểm tra lý lịch của khách hàng, khi đã xử lý thành công các thông tin pháp lý của khách hàng được lưu lại ở local database và phát đi một sự kiện để kích hoạt bước tiếp theo.
-3. `Affordability Service` nhận được sự kiện về việc khách hàng đã đủ điều kiện pháp lý để vay tiền (pass eligibility check), tiến hành thực hiện logic kiểm tra thu nhập hàng tháng của khách hàng, khi đã xác nhận thu nhập hàng tháng của khách hàng đủ điều kiện để trả tiền hàng tháng cho khoản vay, thông tin được lưu lại ở local database và phát đi một để kích hoạt bước tiếp theo.
-5. `Decision Service` sau khi nhận được sự kiện từ việc khách hàng đã đủ điều kiện để trả tiền cho khoản vay hàng tháng, tiến hành tạo ra một khoản vay cho khách hàng, lưu thông tin này lại ở local database và phát đi một sự kiện để kích hoạt bước cuối cùng là giải ngân số tiền vay đến tài khoản của khách hàng.
-7. `Disbursement Service` sau khi nhận được sự kiện về quyết định giải ngân số tiền 2 tỉ cho khách hàng, tiến hành giải ngân số tiền này và đồng thời lưu lại thông tin tùy theo accounting flow của doanh nghiệp để ghi nhận và phục vụ cho việc đối soát.
+1. Khách hàng gửi yêu cầu vay → `Eligibility Service` nhận request `POST /eligibilityCheck`, xử lý thông tin pháp lý và phát sự kiện thành công.
+2. `Affordability Service` nhận sự kiện, kiểm tra thu nhập khách hàng, lưu kết quả và tiếp tục phát sự kiện mới.
+3. `Decision Service` tạo khoản vay, ghi nhận dữ liệu và phát sự kiện quyết định giải ngân.
+4. `Disbursement Service` nhận sự kiện cuối cùng, giải ngân khoản vay và ghi sổ kế toán.
 
-Vậy là Distributed Transaction của chúng ta đã hoàn thành !!!
+Dòng sự kiện khép lại khi tiền được giải ngân – distributed transaction hoàn tất một cách nhẹ nhàng.
 
-### Ví Dụ Cho Saga Orchestration (Điều Phối Tập Trung)
+### Khi Orchestration Dẫn Dắt
 
 ![Ví dụ về Saga Pattern Orchestration](/images/example-3.png)
 
-Tính năng cho vay ở trên đã được mình triển khai Saga Orchestration để quản lý Distributed Transaction như sau: 
+Với chiến lược orchestration, chúng ta thêm một nhân vật trung tâm – orchestrator:
 
-1. Khi khách hàng tiến hành yêu cầu một khoản vay, một `POST/eligibilityCheck` request được gửi đến `Orchestrator Service`, đây sẽ là vị nhạc trưởng để điều phối các local transactions của chúng ta.
-2. Nhạc trưởng sẽ gửi một sự kiện đến `Eligibility Service` yêu cầu tiến hành thực hiện các logic về kiểm tra lý lịch của khách hàng, khi đã xử lý thành công các thông tin pháp lý của khách hàng được lưu lại ở local database và phát đi một sự kiện thông báo rằng đã thực hiện thành công.
-3. Nhạc trưởng nhận được sự kiện thông báo rằng `Eligibility Service` đã thực hiện thành công, nhạc trưởng tiến hành phát đi một sự kiện đến `Affordability Service` yêu cầu tiến hành thực hiện logic kiểm tra thu nhập hàng tháng của khách hàng, khi đã xác nhận thu nhập hàng tháng của khách hàng đủ điều kiện để trả tiền hàng tháng cho khoản vay, thông tin được lưu lại ở local database và phát đi một sự kiện thông báo rằng đã thực hiện thành công.
-4. Nhạc trưởng nhận được sự kiện thông báo rằng `Affordability Service` đã thực hiện thành công, nhạc trưởng tiến hành phát đi một sự kiện đến `Decision Service`, yêu cầu tiến hành tạo ra một khoản vay cho khách hàng, lưu thông tin này lại ở local database và phát đi một sự kiện thông báo rằng đã thực hiện thành công.
-5.  Nhạc trưởng nhận được sự kiện thông báo rằng `Decision Service` đã thực hiện thành công, nhạc trưởng tiến hành phát đi một sự kiện đến `Disbursement Service`, yêu cầu tiến hành giải ngân số tiền 2 tỉ cho khách hàng, tiến hành giải ngân số tiền này và đồng thời lưu lại thông tin tùy theo accounting flow của doanh nghiệp để ghi nhận và phục vụ cho việc đối soát.
+1. Khách hàng gửi yêu cầu vay → orchestrator nhận request và chủ động gửi sự kiện đến `Eligibility Service`.
+2. Khi `Eligibility Service` hoàn tất, orchestrator nhận thông báo và ra lệnh cho `Affordability Service` tiếp tục.
+3. Từng bước lần lượt được orchestrator điều khiển tới `Decision Service` và `Disbursement Service`.
+4. Khi bước cuối cùng hoàn thành, orchestrator xác nhận distributed transaction đã kết thúc.
 
-Vậy là Distributed Transaction của chúng ta đã hoàn thành !!!
+Về bản chất, hai chiến lược khác nhau ở cách điều phối, nhưng đều sử dụng các local transactions để xây dựng nên một workflow dài hơi.
 
-### Ưu Điểm Và Nhược Điểm Của Saga Pattern
+### Ưu Và Nhược Điểm
 
-1. Khả Năng Mở Rộng & Độc Lập Của Các Services
-  - Các service chỉ cần thực hiện local transaction của mình, không dùng chung một database nên sẽ không dẫn đến việc phụ thuộc lẫn nhau.
-  - Dễ dàng scale từng service độc lập.
+1. **Khả năng mở rộng & độc lập** – Services chỉ cần lo phần việc của mình, không chia sẻ database, dễ dàng scale độc lập và tránh sự phụ thuộc chặt chẽ.
+2. **Giảm áp lực khóa dữ liệu** – Local transaction commit ngay khi xong việc, giảm thời gian giữ lock, phù hợp với quy trình dài hạn và hạn chế deadlock.
+3. **Khả năng phục hồi** – Khi một bước thất bại, Saga có thể chạy *compensating transaction* để quay ngược các bước trước đó, đảm bảo eventual consistency.
+4. **Ăn ý với Event-Driven Architecture** – Saga phát huy sức mạnh khi kết hợp với message queue như Kafka, RabbitMQ, EventBridge,...
 
-2. Không phải giữ locking database của từng services quá lâu cho đến khi Distributed Transaction được commit (hoàn thành)
-  - Mỗi local transaction commit ngay khi làm xong nhiệm vụ của nó, không giữ lock lâu → phù hợp cho workflow cần thực hiện trong thời gian dài (thậm chí vài ngày).
-  - Hệ thống đỡ bị tắc nghẽn ở database, chịu tải tốt hơn.
-  - Không xảy ra deadlock giữa các services bên trong Microservices
+### Lời Kết
 
-3. Khả năng phục hồi khi có lỗi
-  - Nếu một bước fail, Saga chạy compensating transaction để rollback các bước trước đó → đảm bảo eventual consistency.
-
-4. Tích hợp tốt với Event-driven architecture
-  - Saga phối hợp tự nhiên với EDA thông qua việc sử dụng các message queue (Kafka, RabbitMQ, EventBridge, …) để truyền thông điệp giữa các service.
+Saga Pattern không phải là viên đạn bạc, nhưng là một công cụ hiệu quả để giữ cho distributed transactions trong kiến trúc microservices vận hành an toàn, linh hoạt. Tùy vào bài toán, bạn có thể chọn choreography để tận dụng kiến trúc phân tán, hoặc orchestration nếu muốn sự điều phối tập trung. Điều quan trọng nhất là hiểu rõ bối cảnh hệ thống của bạn để lựa chọn giải pháp phù hợp.

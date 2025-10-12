@@ -10,28 +10,28 @@
   </head>
 
   <body>
+    {% assign nav_site_title = site.name | default: site.title | default: site.description | default: site.github.repository_name %}
     {% unless page.hide_masthead %}
-     {% assign nav_site_title = site.name | default: site.title | default: site.description | default: site.github.repository_name %}
-<div class="post-masthead">
-  <div class="container">
-    <div class="post-masthead__inner">
-      {% if nav_site_title %}
-      <div class="post-masthead__brand" aria-label="Site">
-        <span class="post-masthead__brand-title">{{ nav_site_title | escape }}</span>
+      <div class="post-masthead">
+        <div class="container">
+          <div class="post-masthead__inner">
+            {% if nav_site_title %}
+            <div class="post-masthead__brand" aria-label="Site">
+              <span class="post-masthead__brand-title">{{ nav_site_title | escape }}</span>
+            </div>
+            {% endif %}
+            <nav class="post-masthead__menu" aria-label="Primary navigation">
+              <a class="post-masthead__link{% if page.url == '/' %} post-masthead__link--active{% endif %}" href="{{ site.baseurl }}/"{% if page.url == '/' %} aria-current="page"{% endif %}>
+                <svg class="post-masthead__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M4 10.5L12 4l8 6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M6 11.5v9h5v-5.5h2V20.5h5v-9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <span class="post-masthead__label">Home</span>
+              </a>
+            </nav>
+          </div>
+        </div>
       </div>
-      {% endif %}
-      <nav class="post-masthead__menu" aria-label="Primary navigation">
-        <a class="post-masthead__link{% if page.url == '/' %} post-masthead__link--active{% endif %}" href="{{ site.baseurl }}/"{% if page.url == '/' %} aria-current="page"{% endif %}>
-          <svg class="post-masthead__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M4 10.5L12 4l8 6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
-            <path d="M6 11.5v9h5v-5.5h2V20.5h5v-9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-          <span class="post-masthead__label">Home</span>
-        </a>
-      </nav>
-    </div>
-  </div>
-</div>
     {% endunless %}
 
     <div id="main" role="main" class="container">
@@ -40,8 +40,34 @@
 
     <div class="wrapper-footer">
       <div class="container">
-        <footer class="footer">
-          {% include svg-icons.html %}
+        <footer class="site-footer" aria-label="Footer">
+          <div class="site-footer__inner">
+            {% if nav_site_title %}
+            {% assign footer_brand_title = nav_site_title %}
+            {% assign footer_brand_words = nav_site_title | split: ' ' %}
+            {% assign footer_brand_word_count = footer_brand_words | size %}
+            {% if footer_brand_word_count > 1 %}
+            {% assign footer_brand_last_index = footer_brand_word_count | minus: 1 %}
+            {% capture footer_brand_candidate -%}
+              {% for word in footer_brand_words -%}
+                {% if forloop.index0 < footer_brand_last_index -%}
+                  {%- if forloop.index0 > 0 -%} {% endif -%}{{ word }}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endcapture %}
+            {% assign footer_brand_candidate = footer_brand_candidate | strip %}
+            {% if footer_brand_candidate != '' %}
+            {% assign footer_brand_title = footer_brand_candidate %}
+            {% endif %}
+            {% endif %}
+            <div class="site-footer__brand" aria-label="Site">
+              <span class="site-footer__brand-title">{{ footer_brand_title | escape }}</span>
+            </div>
+            {% endif %}
+            <nav class="site-footer__links" aria-label="Social links">
+              {% include svg-icons.html %}
+            </nav>
+          </div>
         </footer>
       </div>
     </div>

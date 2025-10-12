@@ -60,11 +60,35 @@ Về bản chất, hai chiến lược khác nhau ở cách điều phối, như
 
 ### Ưu Và Nhược Điểm
 
+ ## Ưu Điểm
 1. **Khả năng mở rộng & độc lập** – Services chỉ cần lo phần việc của mình, không chia sẻ database, dễ dàng scale độc lập và tránh sự phụ thuộc chặt chẽ.
 2. **Giảm áp lực khóa dữ liệu** – Local transaction commit ngay khi xong việc, giảm thời gian giữ lock, phù hợp với quy trình dài hạn và hạn chế deadlock.
 3. **Khả năng phục hồi** – Khi một bước thất bại, Saga có thể chạy *compensating transaction* để quay ngược các bước trước đó, đảm bảo eventual consistency.
 4. **Ăn ý với Event-Driven Architecture** – Saga phát huy sức mạnh khi kết hợp với message queue như Kafka, RabbitMQ, EventBridge,...
 
+## Nhược điểm (Cons)
+
+Consistency chỉ là “eventual”
+
+Không có đảm bảo atomic như 2PC. Trong một khoảng thời gian, dữ liệu có thể ở trạng thái trung gian (inconsistent).
+
+Phức tạp khi định nghĩa compensating transaction
+
+Không phải lúc nào cũng dễ để “undo” một bước (ví dụ: đã gửi email/SMS cho khách thì khó mà rollback).
+
+Quản lý workflow phức tạp
+
+Choreography: có nguy cơ tạo “event spaghetti” → khó đọc, khó maintain.
+
+Orchestration: tạo ra dependency vào một orchestrator trung tâm → có thể trở thành bottleneck.
+
+Debug và giám sát khó khăn hơn
+
+Vì transaction được phân tán qua nhiều service và xử lý bất đồng bộ → khó trace và monitor hơn so với giao dịch đơn lẻ.
+
+Latency cao hơn
+
+Vì các bước được thực hiện nối tiếp, qua messaging → độ trễ lớn hơn so với một ACID transaction trong cùng DB.
 ### Lời Kết
 
 Saga Pattern không phải là viên đạn bạc, nhưng là một công cụ hiệu quả để giữ cho distributed transactions trong kiến trúc microservices vận hành an toàn, linh hoạt. Tùy vào bài toán, bạn có thể chọn choreography để tận dụng kiến trúc phân tán, hoặc orchestration nếu muốn sự điều phối tập trung. Điều quan trọng nhất là hiểu rõ bối cảnh hệ thống của bạn để lựa chọn giải pháp phù hợp.

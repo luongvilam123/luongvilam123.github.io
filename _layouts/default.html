@@ -41,10 +41,11 @@
     <div class="wrapper-footer">
       <div class="container">
         <footer class="site-footer" aria-label="Footer">
+          {% assign footer_brand_title = nav_site_title | default: '' | remove: 'LAM' | remove: 'Lam' | remove: 'lam' | strip %}
           <div class="site-footer__inner">
-            {% if nav_site_title %}
+            {% if footer_brand_title %}
             <div class="site-footer__brand" aria-label="Site">
-              <span class="site-footer__brand-title">{{ nav_site_title | escape }}</span>
+              <span class="site-footer__brand-title">{{ footer_brand_title | escape }}</span>
             </div>
             {% endif %}
             <nav class="site-footer__links" aria-label="Social links">

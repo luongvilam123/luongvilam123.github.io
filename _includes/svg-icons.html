@@ -1,13 +1,72 @@
-{% if site.footer-links.dribbble %}<a href="https://dribbble.com/{{ site.footer-links.dribbble }}"><i class="svg-icon dribbble"></i></a>{% endif %}
-{% if site.footer-links.email %}<a href="mailto:{{ site.footer-links.email }}"><i class="svg-icon email"></i></a>{% endif %}
-{% if site.footer-links.facebook %}<a href="https://www.facebook.com/{{ site.footer-links.facebook }}"><i class="svg-icon facebook"></i></a>{% endif %}
-{% if site.footer-links.flickr %}<a href="https://www.flickr.com/{{ site.footer-links.flickr }}"><i class="svg-icon flickr"></i></a>{% endif %}
-{% if site.footer-links.github %}<a href="https://github.com/{{ site.footer-links.github }}"><i class="svg-icon github"></i></a>{% endif %}
-{% if site.footer-links.instagram %}<a href="https://instagram.com/{{ site.footer-links.instagram }}"><i class="svg-icon instagram"></i></a>{% endif %}
-{% if site.footer-links.linkedin %}<a href="https://www.linkedin.com/in/{{ site.footer-links.linkedin }}"><i class="svg-icon linkedin"></i></a>{% endif %}
-{% if site.footer-links.pinterest %}<a href="https://www.pinterest.com/{{ site.footer-links.pinterest }}"><i class="svg-icon pinterest"></i></a>{% endif %}
-{% if site.footer-links.rss %}<a href="{{ site.baseurl }}/feed.xml"><i class="svg-icon rss"></i></a>{% endif %}
-{% if site.footer-links.twitter %}<a href="https://www.twitter.com/{{ site.footer-links.twitter }}"><i class="svg-icon twitter"></i></a>{% endif %}
-{% if site.footer-links.stackoverflow %}<a href="http://stackoverflow.com/{{ site.footer-links.stackoverflow }}"><i class="svg-icon stackoverflow"></i></a>{% endif %}
-{% if site.footer-links.youtube %}<a href="https://youtube.com/{{ site.footer-links.youtube }}"><i class="svg-icon youtube"></i></a>{% endif %}
-{% if site.footer-links.googleplus %}<a href="https://plus.google.com/{{ site.footer-links.googleplus }}"><i class="svg-icon googleplus"></i></a>{% endif %}
+{% if site.footer-links.dribbble %}
+  <a class="site-footer__link" href="https://dribbble.com/{{ site.footer-links.dribbble }}" aria-label="Dribbble" rel="me noopener noreferrer" target="_blank">
+    <span class="site-footer__icon svg-icon dribbble" aria-hidden="true"></span>
+    <span class="site-footer__text">Dribbble</span>
+  </a>
+{% endif %}
+{% if site.footer-links.email %}
+  <a class="site-footer__link" href="mailto:{{ site.footer-links.email }}" aria-label="Email">
+    <span class="site-footer__icon svg-icon email" aria-hidden="true"></span>
+    <span class="site-footer__text">Email</span>
+  </a>
+{% endif %}
+{% if site.footer-links.facebook %}
+  <a class="site-footer__link" href="https://www.facebook.com/{{ site.footer-links.facebook }}" aria-label="Facebook" rel="me noopener noreferrer" target="_blank">
+    <span class="site-footer__icon svg-icon facebook" aria-hidden="true"></span>
+    <span class="site-footer__text">Facebook</span>
+  </a>
+{% endif %}
+{% if site.footer-links.flickr %}
+  <a class="site-footer__link" href="https://www.flickr.com/{{ site.footer-links.flickr }}" aria-label="Flickr" rel="me noopener noreferrer" target="_blank">
+    <span class="site-footer__icon svg-icon flickr" aria-hidden="true"></span>
+    <span class="site-footer__text">Flickr</span>
+  </a>
+{% endif %}
+{% if site.footer-links.github %}
+  <a class="site-footer__link" href="https://github.com/{{ site.footer-links.github }}" aria-label="GitHub" rel="me noopener noreferrer" target="_blank">
+    <span class="site-footer__icon svg-icon github" aria-hidden="true"></span>
+    <span class="site-footer__text">GitHub</span>
+  </a>
+{% endif %}
+{% if site.footer-links.instagram %}
+  <a class="site-footer__link" href="https://instagram.com/{{ site.footer-links.instagram }}" aria-label="Instagram" rel="me noopener noreferrer" target="_blank">
+    <span class="site-footer__icon svg-icon instagram" aria-hidden="true"></span>
+    <span class="site-footer__text">Instagram</span>
+  </a>
+{% endif %}
+{% if site.footer-links.linkedin %}
+  <a class="site-footer__link" href="https://www.linkedin.com/in/{{ site.footer-links.linkedin }}" aria-label="LinkedIn" rel="me noopener noreferrer" target="_blank">
+    <span class="site-footer__icon svg-icon linkedin" aria-hidden="true"></span>
+    <span class="site-footer__text">LinkedIn</span>
+  </a>
+{% endif %}
+{% if site.footer-links.pinterest %}
+  <a class="site-footer__link" href="https://www.pinterest.com/{{ site.footer-links.pinterest }}" aria-label="Pinterest" rel="me noopener noreferrer" target="_blank">
+    <span class="site-footer__icon svg-icon pinterest" aria-hidden="true"></span>
+    <span class="site-footer__text">Pinterest</span>
+  </a>
+{% endif %}
+{% if site.footer-links.rss %}
+  <a class="site-footer__link" href="{{ site.baseurl }}/feed.xml" aria-label="RSS">
+    <span class="site-footer__icon svg-icon rss" aria-hidden="true"></span>
+    <span class="site-footer__text">RSS</span>
+  </a>
+{% endif %}
+{% if site.footer-links.stackoverflow %}
+  <a class="site-footer__link" href="http://stackoverflow.com/{{ site.footer-links.stackoverflow }}" aria-label="Stack Overflow" rel="me noopener noreferrer" target="_blank">
+    <span class="site-footer__icon svg-icon stackoverflow" aria-hidden="true"></span>
+    <span class="site-footer__text">Stack Overflow</span>
+  </a>
+{% endif %}
+{% if site.footer-links.youtube %}
+  <a class="site-footer__link" href="https://youtube.com/{{ site.footer-links.youtube }}" aria-label="YouTube" rel="me noopener noreferrer" target="_blank">
+    <span class="site-footer__icon svg-icon youtube" aria-hidden="true"></span>
+    <span class="site-footer__text">YouTube</span>
+  </a>
+{% endif %}
+{% if site.footer-links.googleplus %}
+  <a class="site-footer__link" href="https://plus.google.com/{{ site.footer-links.googleplus }}" aria-label="Google Plus" rel="me noopener noreferrer" target="_blank">
+    <span class="site-footer__icon svg-icon googleplus" aria-hidden="true"></span>
+    <span class="site-footer__text">Google Plus</span>
+  </a>
+{% endif %}

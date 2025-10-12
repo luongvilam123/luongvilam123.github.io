@@ -43,25 +43,8 @@
         <footer class="site-footer" aria-label="Footer">
           <div class="site-footer__inner">
             {% if nav_site_title %}
-            {% assign footer_brand_title = nav_site_title %}
-            {% assign footer_brand_words = nav_site_title | split: ' ' %}
-            {% assign footer_brand_word_count = footer_brand_words | size %}
-            {% if footer_brand_word_count > 1 %}
-            {% assign footer_brand_last_index = footer_brand_word_count | minus: 1 %}
-            {% capture footer_brand_candidate -%}
-              {% for word in footer_brand_words -%}
-                {% if forloop.index0 < footer_brand_last_index -%}
-                  {%- if forloop.index0 > 0 -%} {% endif -%}{{ word }}
-                {%- endif -%}
-              {%- endfor -%}
-            {%- endcapture %}
-            {% assign footer_brand_candidate = footer_brand_candidate | strip %}
-            {% if footer_brand_candidate != '' %}
-            {% assign footer_brand_title = footer_brand_candidate %}
-            {% endif %}
-            {% endif %}
             <div class="site-footer__brand" aria-label="Site">
-              <span class="site-footer__brand-title">{{ footer_brand_title | escape }}</span>
+              <span class="site-footer__brand-title">{{ nav_site_title | escape }}</span>
             </div>
             {% endif %}
             <nav class="site-footer__links" aria-label="Social links">
